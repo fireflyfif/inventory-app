@@ -12,8 +12,14 @@ import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 
 public class ItemDbHelper extends SQLiteOpenHelper {
 
+    /**
+     * Database version. If you change the database schema, you must increment the database version.
+     */
     public static final int DATABASE_VERSION = 1;
 
+    /**
+     * Name of the database file
+     */
     public static final String DATABASE_NAME = "inventory.db";
 
     public ItemDbHelper(Context context) {
