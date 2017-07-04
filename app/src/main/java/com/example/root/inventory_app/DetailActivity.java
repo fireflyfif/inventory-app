@@ -34,8 +34,8 @@ public class DetailActivity extends AppCompatActivity {
                 // Delete the Item
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
-            case android.R.id.home:
-                return true;
+//            case android.R.id.home:
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
