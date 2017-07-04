@@ -39,14 +39,14 @@ public class ItemContract {
          *
          * Type: TEXT
          */
-        public static final String COLUMN_ITEM_TYPE = "item type";
+        public static final String COLUMN_ITEM_TYPE = "item_type";
 
         /**
          * Name of the item
          *
          * Type: TEXT
          */
-        public static final String COLUMN_ITEM_NAME = "item name";
+        public static final String COLUMN_ITEM_NAME = "item_name";
 
         /**
          * Quantity of the item
@@ -60,7 +60,7 @@ public class ItemContract {
          *
          * Type: TEXT
          */
-        public static final String COLUMN_ITEM_SUPPLIER = "supplier";
+        public static final String COLUMN_ITEM_SUPPLIER = "supplier_name";
 
         /**
          * Picture of the item
@@ -74,12 +74,12 @@ public class ItemContract {
          *
          * Type: TEXT
          */
-        public static final String COLUMN_ITEM_INFORMATION = "item information";
+        public static final String COLUMN_ITEM_INFORMATION = "item_information";
 
         /**
          * Price of the item
          *
-         * Type: INTEGER or REAL ??
+         * Type: FLOAT or REAL
          */
         public static final String COLUMN_ITEM_PRICE = "price";
     }
