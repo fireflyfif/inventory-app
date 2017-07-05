@@ -1,5 +1,6 @@
 package com.example.root.inventory_app.data;
 
+import android.content.ClipData;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -169,9 +170,98 @@ public class ItemProvider extends ContentProvider {
         return ContentUris.withAppendedId(uri, id);
     }
 
+    /**
+     * Updates the data at the given selection and selection arguments, with the new ContentValues.
+     */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS:
+                return updateItem(uri, values, selection, selectionArgs);
+            case ITEM_ID:
+                selection = ItemEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updateItem(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
+
+    private int updateItem(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        // If the {@link ItemEntry#COLUMN_ITEM_PICTURE} key is present,
+        // check that the picture value is not null.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_PICTURE)) {
+            String itemPicture = values.getAsString(ItemEntry.COLUMN_ITEM_PICTURE);
+            if (itemPicture == null) {
+                throw new IllegalArgumentException("Item requires a picture.");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_NAME} key is present,
+        // check that the name value is not null.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_NAME)) {
+            String name = values.getAsString(ItemEntry.COLUMN_ITEM_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Item requires a name.");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_TYPE} key is present,
+        // check that the type value is not null.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_TYPE)) {
+            Integer itemType = values.getAsInteger(ItemEntry.COLUMN_ITEM_TYPE);
+            if (itemType == null || !ItemEntry.isValidType(itemType)) {
+                throw new IllegalArgumentException("Item requires valid type.");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_QUANTITY} key is present,
+        // check that it's greater than or equal to 0.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_QUANTITY)) {
+            Integer itemQuantity = values.getAsInteger(ItemEntry.COLUMN_ITEM_QUANTITY);
+            if (itemQuantity != null && itemQuantity < 0) {
+                throw new IllegalArgumentException("Item requires valid quantity.");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_SUPPLIER} key is present,
+        // check that the type value is not null.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_SUPPLIER)) {
+            String itemSupplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
+            if (itemSupplier == null) {
+                throw new IllegalArgumentException("Item requires a supplier.");
+            }
+        }
+
+        // If the {@link ItemEntry#COLUMN_ITEM_PRICE} key is present,
+        // check that it's greater then 0.
+        if (values.containsKey(ItemEntry.COLUMN_ITEM_PRICE)) {
+            Integer itemPrice = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
+            if (itemPrice != null || itemPrice <= 0) {
+                throw new IllegalArgumentException("Item requires valid price.");
+            }
+        }
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Get writable database
+        SQLiteDatabase database = mItemDbHelper.getWritableDatabase();
+
+        // Perform the update on the database and get the number of rows affected
+        int rowsUpdated = database.update(ItemEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        // If 1 or more rows were updated, then notify all listeners that the data at the given
+        // URI has changed
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Returns the number of database rows affected by the update
+        return rowsUpdated;
     }
 
     @Override
