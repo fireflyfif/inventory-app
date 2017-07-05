@@ -264,9 +264,41 @@ public class ItemProvider extends ContentProvider {
         return rowsUpdated;
     }
 
+    /**
+     * Delete the data at the given selection and selection arguments.
+     */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        // Get writable database
+        SQLiteDatabase database = mItemDbHelper.getWritableDatabase();
+
+        // track the number of rows that were deleted
+        int rowsDeleted;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case ITEM_ID:
+                // Delete a single row given by the ID in the URI
+                selection = ItemEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                rowsDeleted = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Delete is not supported for " + uri);
+        }
+
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 
     @Override
