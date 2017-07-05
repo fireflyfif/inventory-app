@@ -7,6 +7,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
+
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 
 /**
@@ -39,6 +41,10 @@ public class ItemProvider extends ContentProvider {
         return true;
     }
 
+    /**
+     * Perform the query for the given URI. Use the given projection, selection, selection arguments,
+     * and sort order.
+     */
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
@@ -68,7 +74,7 @@ public class ItemProvider extends ContentProvider {
                 // For every "?" in the selection, there is an element in the selection
                 // arguments that will fill the "?".
                 selection = ItemEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 // Perform a query on the items table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
@@ -87,9 +93,80 @@ public class ItemProvider extends ContentProvider {
         return cursor;
     }
 
+    /**
+     * Insert new data into the provider with the given ContentValues.
+     */
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS:
+                return insertItem(uri, values);
+            default:
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+        }
+    }
+
+    /**
+     * Insert an item into the database with the given content values.
+     *
+     * @return the new content URI for the specific row in the database.
+     */
+    private Uri insertItem(Uri uri, ContentValues values) {
+        // Get writable database.
+        SQLiteDatabase database = mItemDbHelper.getWritableDatabase();
+
+        // Check that the picture is not null.
+        String itemPicture = values.getAsString(ItemEntry.COLUMN_ITEM_PICTURE);
+        if (itemPicture == null) {
+            throw new IllegalArgumentException("Item requires a picture.");
+        }
+
+        // Check that the name is not null
+        String itemName = values.getAsString(ItemEntry.COLUMN_ITEM_NAME);
+        if (itemName == null) {
+            throw new IllegalArgumentException("Item requires a name.");
+        }
+
+        // Check that the type is not null
+        Integer itemType = values.getAsInteger(ItemEntry.COLUMN_ITEM_TYPE);
+        if (itemType == null || !ItemEntry.isValidType(itemType)) {
+            throw new IllegalArgumentException("Item requires valid type.");
+        }
+
+        // Check that the quantity is provided, check that it's greater than or equal to 0
+        Integer itemQuantity = values.getAsInteger(ItemEntry.COLUMN_ITEM_QUANTITY);
+        if (itemQuantity != null && itemQuantity < 0) {
+            throw new IllegalArgumentException("Item requires valid quantity.");
+        }
+
+        // Check that the supplier is not null
+        String itemSupplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
+        if (itemSupplier == null) {
+            throw new IllegalArgumentException("Item requires a supplier.");
+        }
+
+        // Check that the price is provided, check that it's greater then 0
+        Integer itemPrice = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
+        if (itemPrice != null || itemPrice <= 0) {
+            throw new IllegalArgumentException("Item requires valid price.");
+        }
+
+        // No need to check the item information, any value is valid (including null).
+
+        // Insert the new pet with the given values
+        long id = database.insert(ItemEntry.TABLE_NAME, null, values);
+        // If the ID is -1, then the insertion failed. Log an error and return null.
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        // Notify all listeners that the data has changed for the item content URI
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        // Return the new URI with the ID (of the newly inserted row) appended to the end of it
+        return ContentUris.withAppendedId(uri, id);
     }
 
     @Override

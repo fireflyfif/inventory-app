@@ -1,7 +1,11 @@
 package com.example.root.inventory_app;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.root.inventory_app.data.ItemContract;
+import com.example.root.inventory_app.data.ItemContract.ItemEntry;
+
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    /** Identifier for the item data loader */
+    private static final int ITEM_LOADER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +65,35 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // Define a projection that specifies the columns from the items table.
+        String[] projection = {
+                ItemEntry._ID,
+                ItemEntry.COLUMN_ITEM_PICTURE,
+                ItemEntry.COLUMN_ITEM_TYPE,
+                ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_QUANTITY,
+                ItemEntry.COLUMN_ITEM_PRICE };
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,
+                ItemEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Update {@link ItemCursorAdapter} with this new cursor containing updated items data
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }
