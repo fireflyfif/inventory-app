@@ -1,13 +1,17 @@
 package com.example.root.inventory_app;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +23,12 @@ import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     /** Identifier for the item data loader */
     private static final int ITEM_LOADER = 0;
+
+    ItemCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,14 @@ public class MainActivity extends AppCompatActivity implements
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items
         View emptyView = findViewById(R.id.empty_view);
         itemsList.setEmptyView(emptyView);
+
+        // Setup an Adapter to create a list for each row of item data in the Cursor.
+        // There is no item data yet (until the loader finishes) so pass in null for the Cursor.
+        mCursorAdapter = new ItemCursorAdapter(this, null);
+        itemsList.setAdapter(mCursorAdapter);
+
+        // Prepare the loader.
+        getSupportLoaderManager().initLoader(ITEM_LOADER, null, this);
     }
 
     @Override
@@ -59,12 +75,30 @@ public class MainActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_insert_dummy_data:
                 // Do insertion
+                insertItem();
                 return true;
             case R.id.action_delete_all_items:
                 // Delete all items
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void insertItem() {
+        // Create a ContentValues object where column names are the keys,
+        // and Chair "FRANKLIN" is the new item with its values.
+        ContentValues values = new ContentValues();
+        values.put(ItemEntry.COLUMN_ITEM_PICTURE, getString(R.string.dummy_picture_uri));
+        values.put(ItemEntry.COLUMN_ITEM_TYPE, ItemEntry.ITEM_TYPE_CHAIRS);
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "FRANKLIN");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 10);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, "IKEA");
+        values.put(ItemEntry.COLUMN_ITEM_INFORMATION, "Modern Chair from Ikea.");
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 29.50);
+
+
+        Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        Log.v(LOG_TAG, "Table items: " + newUri);
     }
 
     @Override
@@ -90,10 +124,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update {@link ItemCursorAdapter} with this new cursor containing updated items data
+        mCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        mCursorAdapter.swapCursor(null);
     }
 }

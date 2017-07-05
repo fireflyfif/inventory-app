@@ -10,4 +10,8 @@
     <string name="action_save">Save</string>
 
     <string name="action_delete">Delete</string>
+
+    <string name="unknown_type">Unknown type</string>
+
+    <string name="dummy_picture_uri">android.resource://com.example.root.inventory_app/drawable/news_image_2</string>
 </resources>

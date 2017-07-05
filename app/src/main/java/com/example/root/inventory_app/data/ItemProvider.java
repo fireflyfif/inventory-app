@@ -142,14 +142,14 @@ public class ItemProvider extends ContentProvider {
         }
 
         // Check that the supplier is not null
-        String itemSupplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
-        if (itemSupplier == null) {
-            throw new IllegalArgumentException("Item requires a supplier.");
-        }
+//        String itemSupplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
+//        if (itemSupplier == null) {
+//            throw new IllegalArgumentException("Item requires a supplier.");
+//        }
 
         // Check that the price is provided, check that it's greater then 0
         Integer itemPrice = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
-        if (itemPrice != null || itemPrice <= 0) {
+        if (itemPrice != null && itemPrice < 0) {
             throw new IllegalArgumentException("Item requires valid price.");
         }
 
@@ -181,7 +181,7 @@ public class ItemProvider extends ContentProvider {
                 return updateItem(uri, values, selection, selectionArgs);
             case ITEM_ID:
                 selection = ItemEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateItem(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -284,7 +284,7 @@ public class ItemProvider extends ContentProvider {
             case ITEM_ID:
                 // Delete a single row given by the ID in the URI
                 selection = ItemEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(ItemEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
