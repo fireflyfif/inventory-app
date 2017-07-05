@@ -301,8 +301,19 @@ public class ItemProvider extends ContentProvider {
         return rowsDeleted;
     }
 
+    /**
+     * Returns the MIME type of data for the content URI.
+     */
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case ITEMS:
+                return ItemEntry.CONTENT_LIST_TYPE;
+            case ITEM_ID:
+                return ItemEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
+        }
     }
 }
