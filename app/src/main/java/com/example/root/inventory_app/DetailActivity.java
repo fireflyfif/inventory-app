@@ -2,11 +2,16 @@ package com.example.root.inventory_app;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,7 +27,10 @@ import android.widget.Toast;
 
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int EXISTING_ITEM_LOADER = 0;
 
     private Spinner mItemTypeSpinner;
 
@@ -64,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
             setTitle(getString(R.string.detail_activity_title_add_item));
         } else {
             setTitle(getString(R.string.detail_activity_title_edit_item));
+            getSupportLoaderManager().initLoader(EXISTING_ITEM_LOADER, null, this);
         }
 
         // Find all relevant views to reed input from
@@ -98,8 +107,7 @@ public class DetailActivity extends AppCompatActivity {
         itemTypeSpinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
         mItemTypeSpinner.setAdapter(itemTypeSpinner);
-//        String selectedItemType = getResources().getStringArray(R.array.array_type_options)
-//                [itemTypeSpinner.getPosition()];
+
         mItemTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -233,5 +241,103 @@ public class DetailActivity extends AppCompatActivity {
 //                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.v("DetailActivity", "Now is onCreateLoader called");
+        // Define a projection that contains all columns from the items table
+        String[] projection = {
+                ItemEntry._ID,
+                ItemEntry.COLUMN_ITEM_PICTURE,
+                ItemEntry.COLUMN_ITEM_NAME,
+                ItemEntry.COLUMN_ITEM_TYPE,
+                ItemEntry.COLUMN_ITEM_INFORMATION,
+                ItemEntry.COLUMN_ITEM_SUPPLIER,
+                ItemEntry.COLUMN_ITEM_PRICE,
+                ItemEntry.COLUMN_ITEM_QUANTITY };
+
+        // This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this,
+                mCurrentItemUri,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.v("DetailActivity", "Now is onLoadFinished called");
+        // Proceed with moving to the first row of the cursor and reading data from it
+        if (cursor.moveToFirst()) {
+            // Find the columns of item attributes that are relevant
+            int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
+            int infoColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_INFORMATION);
+            int typeColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
+            int supplierColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_SUPPLIER);
+            int priceColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
+
+            // Extract out the value from the cursor for the given column index
+            String name = cursor.getString(nameColumnIndex);
+            String info = cursor.getString(infoColumnIndex);
+            int type = cursor.getInt(typeColumnIndex);
+            String supplier = cursor.getString(supplierColumnIndex);
+            double price = cursor.getDouble(priceColumnIndex);
+            int quantity = cursor.getInt(quantityColumnIndex);
+
+            // Update the views on the screen with the values from the database
+            mItemName.setText(name);
+            mItemInfo.setText(info);
+            mItemSupplier.setText(supplier);
+            mItemPrice.setText(Double.toString(price));
+            mQuantity.setText(Integer.toString(quantity));
+
+            switch (type) {
+                case ItemEntry.ITEM_TYPE_SOFAS:
+                    mItemTypeSpinner.setSelection(1);
+                    break;
+                case ItemEntry.ITEM_TYPE_CHAIRS:
+                    mItemTypeSpinner.setSelection(2);
+                    break;
+                case ItemEntry.ITEM_TYPE_TABLES:
+                    mItemTypeSpinner.setSelection(3);
+                    break;
+                case ItemEntry.ITEM_TYPE_BEDS:
+                    mItemTypeSpinner.setSelection(4);
+                    break;
+                case ItemEntry.ITEM_TYPE_DESKS:
+                    mItemTypeSpinner.setSelection(5);
+                    break;
+                case ItemEntry.ITEM_TYPE_CABINETS:
+                    mItemTypeSpinner.setSelection(6);
+                    break;
+                case ItemEntry.ITEM_TYPE_WARDROBES:
+                    mItemTypeSpinner.setSelection(7);
+                    break;
+                case ItemEntry.ITEM_TYPE_TEXTILES:
+                    mItemTypeSpinner.setSelection(8);
+                    break;
+                case ItemEntry.ITEM_TYPE_DECORATION:
+                    mItemTypeSpinner.setSelection(9);
+                    break;
+                default:
+                    mItemTypeSpinner.setSelection(0);
+                    break;
+            }
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.v("DetailActivity", "Now is onLoaderReset called");
+        mItemName.setText("");
+        mItemInfo.setText("");
+        mItemSupplier.setText("");
+        mItemPrice.setText("");
+        mQuantity.setText("");
+        mItemTypeSpinner.setSelection(0);
     }
 }

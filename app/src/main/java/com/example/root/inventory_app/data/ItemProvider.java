@@ -238,8 +238,8 @@ public class ItemProvider extends ContentProvider {
         // If the {@link ItemEntry#COLUMN_ITEM_PRICE} key is present,
         // check that it's greater then 0.
         if (values.containsKey(ItemEntry.COLUMN_ITEM_PRICE)) {
-            Integer itemPrice = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
-            if (itemPrice != null || itemPrice <= 0) {
+            Double itemPrice = values.getAsDouble(ItemEntry.COLUMN_ITEM_PRICE);
+            if (itemPrice != null && itemPrice < 0) {
                 throw new IllegalArgumentException("Item requires valid price.");
             }
         }
