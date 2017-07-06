@@ -12,6 +12,9 @@
     <string name="spinner_textiles">Textiles</string>
     <string name="spinner_decoration">Decoration</string>
 
+    <string name="detail_activity_title_add_item">Add Item</string>
+    <string name="detail_activity_title_edit_item">Edit Item</string>
+
     <string name="empty_view_text">It\'s a bit lonely here.</string>
 
     <string name="action_insert_dummy_data">Insert Dummy Data</string>

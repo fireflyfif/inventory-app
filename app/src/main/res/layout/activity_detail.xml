@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/layout_margin_16dp">
 
@@ -19,39 +19,78 @@
             android:scaleType="centerCrop"
             android:src="@drawable/news_image_2" />
 
-        <TextView
-            android:id="@+id/item_name_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textStyle="bold"
-            android:text="Name of the Item" />
-
-        <TextView
-            android:id="@+id/item_information"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:text="Information about the item." />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp">
 
             <TextView
-                android:id="@+id/item_type_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
+                android:text="Name:"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:text="Category:" />
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Name of the item"
+                android:inputType="textCapWords"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="Description:"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_item_information"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Information of the item"
+                android:inputType="textCapWords"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:text="Category:"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -60,7 +99,7 @@
                 android:orientation="vertical">
 
                 <Spinner
-                    android:id="@+id/spinner_type"
+                    android:id="@+id/spinner_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/array_type_options"
@@ -72,21 +111,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp">
 
             <TextView
-                android:id="@+id/item_supplier"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
+                android:text="Supplier:"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:text="Supplier:" />
+                android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/edit_item_supplier"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -99,19 +139,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp">
 
             <TextView
-                android:id="@+id/item_price_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
+                android:text="Price:"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:text="Price:" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -119,11 +159,13 @@
                 android:layout_weight="2">
 
                 <Spinner
+                    android:id="@+id/currency_spinner"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <EditText
+                    android:id="@+id/edit_item_price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -138,19 +180,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="6dp"
             android:paddingTop="6dp">
 
             <TextView
-                android:id="@+id/item_quantity_text_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
+                android:text="In Stock:"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold"
-                android:text="In Stock:" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -159,27 +201,30 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/quantity_decrement"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="-" />
 
                 <TextView
-                    android:id="@+id/item_quantity_detail"
+                    android:id="@+id/item_quantity_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:padding="6dp"
+                    android:text="10"
                     android:textAppearance="?android:textAppearanceSmall"
-                    android:textStyle="bold"
-                    android:text="10" />
+                    android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/quantity_increment"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="+" />
 
                 <Button
+                    android:id="@+id/order_item_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"

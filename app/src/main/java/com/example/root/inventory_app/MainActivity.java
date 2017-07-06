@@ -1,5 +1,6 @@
 package com.example.root.inventory_app;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.root.inventory_app.data.ItemContract;
@@ -25,7 +27,9 @@ public class MainActivity extends AppCompatActivity implements
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    /** Identifier for the item data loader */
+    /**
+     * Identifier for the item data loader
+     */
     private static final int ITEM_LOADER = 0;
 
     ItemCursorAdapter mCursorAdapter;
@@ -56,6 +60,18 @@ public class MainActivity extends AppCompatActivity implements
         // There is no item data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new ItemCursorAdapter(this, null);
         itemsList.setAdapter(mCursorAdapter);
+
+        itemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
+                Log.v(LOG_TAG, "Current Item URI is " + currentItemUri);
+
+                intent.setData(currentItemUri);
+                startActivity(intent);
+            }
+        });
 
         // Prepare the loader.
         getSupportLoaderManager().initLoader(ITEM_LOADER, null, this);
@@ -109,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements
                 ItemEntry.COLUMN_ITEM_TYPE,
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_QUANTITY,
-                ItemEntry.COLUMN_ITEM_PRICE };
+                ItemEntry.COLUMN_ITEM_PRICE};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,
