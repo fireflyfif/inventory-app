@@ -169,8 +169,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:hint="e.g. 150"
-                    android:inputType="textCapWords"
+                    android:hint="e.g. 59.90"
+                    android:inputType="number|numberDecimal"
                     android:textAppearance="?android:textAppearanceSmall" />
 
             </LinearLayout>
@@ -206,14 +206,16 @@
                     android:layout_height="wrap_content"
                     android:text="-" />
 
-                <TextView
-                    android:id="@+id/item_quantity_number"
+                <EditText
+                    android:id="@+id/edit_item_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:padding="6dp"
-                    android:text="10"
+                    android:hint="10"
+                    android:inputType="number"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textStyle="bold" />
 

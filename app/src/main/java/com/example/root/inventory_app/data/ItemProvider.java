@@ -118,10 +118,10 @@ public class ItemProvider extends ContentProvider {
         SQLiteDatabase database = mItemDbHelper.getWritableDatabase();
 
         // Check that the picture is not null.
-        String itemPicture = values.getAsString(ItemEntry.COLUMN_ITEM_PICTURE);
-        if (itemPicture == null) {
-            throw new IllegalArgumentException("Item requires a picture.");
-        }
+//        String itemPicture = values.getAsString(ItemEntry.COLUMN_ITEM_PICTURE);
+//        if (itemPicture == null) {
+//            throw new IllegalArgumentException("Item requires a picture.");
+//        }
 
         // Check that the name is not null
         String itemName = values.getAsString(ItemEntry.COLUMN_ITEM_NAME);
@@ -132,6 +132,7 @@ public class ItemProvider extends ContentProvider {
         // Check that the type is not null
         Integer itemType = values.getAsInteger(ItemEntry.COLUMN_ITEM_TYPE);
         if (itemType == null || !ItemEntry.isValidType(itemType)) {
+            Log.v(LOG_TAG, "Current integer for the category " + itemType);
             throw new IllegalArgumentException("Item requires valid type.");
         }
 

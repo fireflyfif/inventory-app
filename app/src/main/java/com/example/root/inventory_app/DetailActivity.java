@@ -1,6 +1,8 @@
 package com.example.root.inventory_app;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 
@@ -23,10 +28,13 @@ public class DetailActivity extends AppCompatActivity {
 
     private Uri mCurrentItemUri;
 
+    private Uri imageUri;
+    private ImageView mItemImage;
     private EditText mItemName;
     private EditText mItemInfo;
     private EditText mItemSupplier;
     private EditText mItemPrice;
+    private EditText mQuantity;
     private Button mQuantityDecrement;
     private Button mQuantityIncrement;
     private Button mOrderItem;
@@ -59,10 +67,12 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // Find all relevant views to reed input from
+        mItemImage = (ImageView) findViewById(R.id.item_picture_detail);
         mItemName = (EditText) findViewById(R.id.edit_item_name);
         mItemInfo = (EditText) findViewById(R.id.edit_item_information);
         mItemSupplier = (EditText) findViewById(R.id.edit_item_supplier);
         mItemPrice = (EditText) findViewById(R.id.edit_item_price);
+        mQuantity = (EditText) findViewById(R.id.edit_item_quantity);
         mItemTypeSpinner = (Spinner) findViewById(R.id.spinner_item_type);
         mQuantityDecrement = (Button) findViewById(R.id.quantity_decrement);
         mQuantityIncrement = (Button) findViewById(R.id.quantity_increment);
@@ -73,6 +83,7 @@ public class DetailActivity extends AppCompatActivity {
         mItemInfo.setOnTouchListener(mTouchListener);
         mItemSupplier.setOnTouchListener(mTouchListener);
         mItemPrice.setOnTouchListener(mTouchListener);
+        mQuantity.setOnTouchListener(mTouchListener);
         mItemTypeSpinner.setOnTouchListener(mTouchListener);
         mQuantityDecrement.setOnTouchListener(mTouchListener);
         mQuantityIncrement.setOnTouchListener(mTouchListener);
@@ -128,6 +139,70 @@ public class DetailActivity extends AppCompatActivity {
     private void saveNewItem() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
+        String itemNameString = mItemName.getText().toString().trim();
+        String itemInfoString = mItemInfo.getText().toString().trim();
+        String itemSupplierString = mItemSupplier.getText().toString().trim();
+        String itemQuantityString = mQuantity.getText().toString().trim();
+        String itemPriceString = mItemPrice.getText().toString().trim();
+        // ToDo string for quantity
+
+        // Check if this is supposed to be a new pet
+        // and check if all the fields in the editor are blank
+        // TODO add if the quantity is changed
+        if (mCurrentItemUri == null &&
+                TextUtils.isEmpty(itemNameString) && TextUtils.isEmpty(itemInfoString) &&
+                TextUtils.isEmpty(itemSupplierString) && TextUtils.isEmpty(itemQuantityString) &&
+                TextUtils.isEmpty(itemPriceString) && mType == ItemEntry.ITEM_TYPE_OTHER) {
+            return;
+        }
+
+        // Create a ContentValues object where column names are the keys,
+        // and pet attributes from the editor are the values.
+        ContentValues values = new ContentValues();
+        values.put(ItemEntry.COLUMN_ITEM_NAME, itemNameString);
+        values.put(ItemEntry.COLUMN_ITEM_INFORMATION, itemInfoString);
+        values.put(ItemEntry.COLUMN_ITEM_TYPE, mType);
+        values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, itemSupplierString);
+
+        int quantity = 0;
+        if (!TextUtils.isEmpty(itemQuantityString)) {
+            quantity = Integer.parseInt(itemQuantityString);
+        }
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, quantity);
+
+        double price = 0;
+        if (!TextUtils.isEmpty(itemPriceString)) {
+            price = Double.parseDouble(itemPriceString);
+        }
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, price);
+
+        if (mCurrentItemUri == null) {
+            // This is a new item, so insert a new item into the provider.
+            // Return the content URI for the new item.
+            Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+
+            // Show a toast message depending on whether or not the insertion was successful
+            if (newUri == null) {
+                Toast.makeText(this, "Error with saving the item",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Item saved",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            int mRowsUpdated = getContentResolver().update(
+                    mCurrentItemUri,
+                    values,
+                    null,
+                    null);
+            if (mRowsUpdated == 0) {
+                Toast.makeText(this, "Error with updating the item " + mRowsUpdated,
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Item updated",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }
 

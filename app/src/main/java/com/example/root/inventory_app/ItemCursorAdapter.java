@@ -82,9 +82,30 @@ public class ItemCursorAdapter extends CursorAdapter {
         // Update the TextViews with the attributes for the current item
         itemPicture.setImageURI(pictureUri);
         // What does this do?
-//        itemPicture.invalidate();
+        itemPicture.invalidate();
         itemName.setText(name);
         itemType.setText(Integer.toString(type));
+        if (type == ItemEntry.ITEM_TYPE_OTHER) {
+            itemType.setText(R.string.spinner_other);
+        } else if (type == ItemEntry.ITEM_TYPE_SOFAS) {
+            itemType.setText(R.string.spinner_sofas);
+        } else if (type == ItemEntry.ITEM_TYPE_CHAIRS) {
+            itemType.setText(R.string.spinner_chairs);
+        } else if (type == ItemEntry.ITEM_TYPE_TABLES) {
+            itemType.setText(R.string.spinner_tables);
+        } else if (type == ItemEntry.ITEM_TYPE_BEDS) {
+            itemType.setText(R.string.spinner_beds);
+        } else if (type == ItemEntry.ITEM_TYPE_DESKS) {
+            itemType.setText(R.string.spinner_desks);
+        } else if (type == ItemEntry.ITEM_TYPE_CABINETS) {
+            itemType.setText(R.string.spinner_cabinets);
+        } else if (type == ItemEntry.ITEM_TYPE_WARDROBES) {
+            itemType.setText(R.string.spinner_wardrobes);
+        } else if (type == ItemEntry.ITEM_TYPE_TEXTILES) {
+            itemType.setText(R.string.spinner_textiles);
+        } else {
+            itemType.setText(R.string.spinner_decoration);
+        }
         itemPrice.setText(Double.toString(price));
         itemQuantity.setText(quantity);
     }

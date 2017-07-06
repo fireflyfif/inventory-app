@@ -31,7 +31,7 @@ public class ItemDbHelper extends SQLiteOpenHelper {
         // Create a String that contains the SQL statement to create the items table
         String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + ItemEntry.TABLE_NAME + " ("
                 + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ItemEntry.COLUMN_ITEM_PICTURE + " TEXT NOT NULL, "
+                + ItemEntry.COLUMN_ITEM_PICTURE + " TEXT, "
                 + ItemEntry.COLUMN_ITEM_TYPE + " INTEGER NOT NULL, "
                 + ItemEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL, "
                 + ItemEntry.COLUMN_ITEM_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
