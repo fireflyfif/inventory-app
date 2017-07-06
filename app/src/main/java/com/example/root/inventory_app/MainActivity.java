@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements
         values.put(ItemEntry.COLUMN_ITEM_INFORMATION, "Modern Chair from Ikea.");
         values.put(ItemEntry.COLUMN_ITEM_PRICE, 29.50);
 
-
         Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         Log.v(LOG_TAG, "Table items: " + newUri);
     }

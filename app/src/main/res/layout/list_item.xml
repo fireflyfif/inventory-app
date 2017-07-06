@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
 
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                tools:text="Price: EUR" />
+                android:text="Price: EUR" />
 
             <TextView
                 android:id="@+id/item_price"
@@ -59,13 +59,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                tools:text="In Stock" />
+                android:text="In Stock" />
 
             <Button
                 android:id="@+id/buy_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/price_text_view"
+                android:layout_marginTop="6dp"
                 android:text="Buy" />
 
             <TextView

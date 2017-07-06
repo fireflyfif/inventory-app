@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_type_options">
+        <item>@string/spinner_other</item>
+        <item>@string/spinner_sofas</item>
+        <item>@string/spinner_chairs</item>
+        <item>@string/spinner_tables</item>
+        <item>@string/spinner_beds</item>
+        <item>@string/spinner_desks</item>
+        <item>@string/spinner_cabinets</item>
+        <item>@string/spinner_wardrobes</item>
+        <item>@string/spinner_textiles</item>
+        <item>@string/spinner_decoration</item>
+    </string-array>
+</resources>

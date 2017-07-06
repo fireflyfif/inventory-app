@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Inventory App</string>
 
+    <string name="spinner_other">Other</string>
+    <string name="spinner_sofas">Sofas</string>
+    <string name="spinner_chairs">Chairs</string>
+    <string name="spinner_tables">Tables</string>
+    <string name="spinner_beds">Beds</string>
+    <string name="spinner_desks">Desks</string>
+    <string name="spinner_cabinets">Cabinets</string>
+    <string name="spinner_wardrobes">Wardrobes</string>
+    <string name="spinner_textiles">Textiles</string>
+    <string name="spinner_decoration">Decoration</string>
+
     <string name="empty_view_text">It\'s a bit lonely here.</string>
 
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
