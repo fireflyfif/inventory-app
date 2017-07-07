@@ -71,7 +71,7 @@ public class ItemCursorAdapter extends CursorAdapter {
         String name = cursor.getString(nameColumnIndex);
         int type = cursor.getInt(typeColumnIndex);
         double price = cursor.getDouble(priceColumnIndex);
-        String quantity = cursor.getString(quantityColumnIndex);
+        int quantity = cursor.getInt(quantityColumnIndex);
 
         // If the item type string is empty of null, then use some default text
         // that says "unknown type", so the TextView isn't blank.
@@ -107,6 +107,6 @@ public class ItemCursorAdapter extends CursorAdapter {
             itemType.setText(R.string.spinner_decoration);
         }
         itemPrice.setText(Double.toString(price));
-        itemQuantity.setText(quantity);
+        itemQuantity.setText(Integer.toString(quantity));
     }
 }

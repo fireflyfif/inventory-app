@@ -10,6 +10,7 @@
         android:id="@+id/item_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:layout_margin="10dp"
         android:src="@drawable/news_image_2" />
 

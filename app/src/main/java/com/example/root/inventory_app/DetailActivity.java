@@ -56,10 +56,11 @@ public class DetailActivity extends AppCompatActivity implements
     private EditText mItemInfo;
     private EditText mItemSupplier;
     private EditText mItemPrice;
-    private EditText mQuantity;
+    private EditText mEditQuantity;
     private Button mQuantityDecrement;
     private Button mQuantityIncrement;
     private Button mOrderItem;
+    private int quantity;
 
     private boolean mItemHasChanged = false;
 
@@ -95,7 +96,7 @@ public class DetailActivity extends AppCompatActivity implements
         mItemInfo = (EditText) findViewById(R.id.edit_item_information);
         mItemSupplier = (EditText) findViewById(R.id.edit_item_supplier);
         mItemPrice = (EditText) findViewById(R.id.edit_item_price);
-        mQuantity = (EditText) findViewById(R.id.edit_item_quantity);
+        mEditQuantity = (EditText) findViewById(R.id.edit_item_quantity);
         mItemTypeSpinner = (Spinner) findViewById(R.id.spinner_item_type);
         mQuantityDecrement = (Button) findViewById(R.id.quantity_decrement);
         mQuantityIncrement = (Button) findViewById(R.id.quantity_increment);
@@ -116,12 +117,47 @@ public class DetailActivity extends AppCompatActivity implements
         mItemInfo.setOnTouchListener(mTouchListener);
         mItemSupplier.setOnTouchListener(mTouchListener);
         mItemPrice.setOnTouchListener(mTouchListener);
-        mQuantity.setOnTouchListener(mTouchListener);
+        mEditQuantity.setOnTouchListener(mTouchListener);
         mItemTypeSpinner.setOnTouchListener(mTouchListener);
         mQuantityDecrement.setOnTouchListener(mTouchListener);
         mQuantityIncrement.setOnTouchListener(mTouchListener);
 
         setupSpinner();
+        decrementQuantity();
+        incrementQuantity();
+    }
+
+    private void decrementQuantity() {
+        mQuantityDecrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEditQuantity.getText().toString().equals(null) ||
+                        mEditQuantity.getText().toString().equals("")) {
+                    Toast.makeText(DetailActivity.this, "Enter some value",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    quantity = Integer.parseInt(mEditQuantity.getText().toString());
+                    mEditQuantity.setText(String.valueOf(quantity-1));
+                }
+            }
+        });
+    }
+
+    private void incrementQuantity() {
+        mQuantityIncrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEditQuantity.getText().toString().equals(null) ||
+                        mEditQuantity.getText().toString().equals("")) {
+                    Toast.makeText(DetailActivity.this, "Enter some value",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    quantity = Integer.parseInt(mEditQuantity.getText().toString());
+                    mEditQuantity.setText(String.valueOf(quantity+1));
+                }
+            }
+        });
+
     }
 
     private void setupSpinner() {
@@ -218,7 +254,6 @@ public class DetailActivity extends AppCompatActivity implements
                 mItemImage.invalidate();
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void openImageSelector() {
@@ -240,29 +275,41 @@ public class DetailActivity extends AppCompatActivity implements
         String itemNameString = mItemName.getText().toString().trim();
         String itemInfoString = mItemInfo.getText().toString().trim();
         String itemSupplierString = mItemSupplier.getText().toString().trim();
-        String itemQuantityString = mQuantity.getText().toString().trim();
+        String itemQuantityString = mEditQuantity.getText().toString().trim();
         String itemPriceString = mItemPrice.getText().toString().trim();
         // ToDo buttons for quantity
 
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank
-        // TODO add if the quantity is changed
         if (mCurrentItemUri == null &&
-                TextUtils.isEmpty(itemNameString) && TextUtils.isEmpty(itemInfoString) &&
-                TextUtils.isEmpty(itemSupplierString) && TextUtils.isEmpty(itemQuantityString) &&
-                TextUtils.isEmpty(itemPriceString) && mType == ItemEntry.ITEM_TYPE_OTHER) {
+                TextUtils.isEmpty(itemNameString) &&
+                TextUtils.isEmpty(itemInfoString) &&
+                TextUtils.isEmpty(itemSupplierString) &&
+                TextUtils.isEmpty(itemQuantityString) &&
+                TextUtils.isEmpty(itemPriceString) &&
+                mType == ItemEntry.ITEM_TYPE_OTHER &&
+                mImageUri == null) {
             return;
         }
 
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
+        if (mImageUri == null) {
+            Toast.makeText(this, "Something about the image", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(itemNameString)) {
+            Toast.makeText(this, "Item requires a name", Toast.LENGTH_SHORT).show();
+            // Don't really work
+            mItemName.setText("No Name Provided");
+            return;
+        }
+        values.put(ItemEntry.COLUMN_ITEM_PICTURE, mImageUri.toString());
         values.put(ItemEntry.COLUMN_ITEM_NAME, itemNameString);
         values.put(ItemEntry.COLUMN_ITEM_INFORMATION, itemInfoString);
         values.put(ItemEntry.COLUMN_ITEM_TYPE, mType);
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, itemSupplierString);
 
-        int quantity = 0;
         if (!TextUtils.isEmpty(itemQuantityString)) {
             quantity = Integer.parseInt(itemQuantityString);
         }
@@ -362,6 +409,7 @@ public class DetailActivity extends AppCompatActivity implements
         // Proceed with moving to the first row of the cursor and reading data from it
         if (cursor.moveToFirst()) {
             // Find the columns of item attributes that are relevant
+            int imageColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PICTURE);
             int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
             int infoColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_INFORMATION);
             int typeColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
@@ -370,19 +418,22 @@ public class DetailActivity extends AppCompatActivity implements
             int quantityColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_QUANTITY);
 
             // Extract out the value from the cursor for the given column index
+            String imageUriString = cursor.getString(imageColumnIndex);
             String name = cursor.getString(nameColumnIndex);
             String info = cursor.getString(infoColumnIndex);
             int type = cursor.getInt(typeColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
             double price = cursor.getDouble(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            quantity = cursor.getInt(quantityColumnIndex);
 
             // Update the views on the screen with the values from the database
+            mImageUri = Uri.parse(imageUriString);
+            mItemImage.setImageURI(mImageUri);
             mItemName.setText(name);
             mItemInfo.setText(info);
             mItemSupplier.setText(supplier);
             mItemPrice.setText(Double.toString(price));
-            mQuantity.setText(Integer.toString(quantity));
+            mEditQuantity.setText(Integer.toString(quantity));
 
             switch (type) {
                 case ItemEntry.ITEM_TYPE_SOFAS:
@@ -427,7 +478,7 @@ public class DetailActivity extends AppCompatActivity implements
         mItemInfo.setText("");
         mItemSupplier.setText("");
         mItemPrice.setText("");
-        mQuantity.setText("");
+        mEditQuantity.setText("");
         mItemTypeSpinner.setSelection(0);
     }
 }
