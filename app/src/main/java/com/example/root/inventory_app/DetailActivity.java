@@ -1,11 +1,19 @@
 package com.example.root.inventory_app;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -30,13 +38,19 @@ import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 public class DetailActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+
+    private static final int PICK_IMAGE_REQUEST = 0;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int MY_PERMISSIONS_REQUEST = 2;
+
     private static final int EXISTING_ITEM_LOADER = 0;
 
     private Spinner mItemTypeSpinner;
 
     private Uri mCurrentItemUri;
 
-    private Uri imageUri;
+    private Uri mImageUri;
     private ImageView mItemImage;
     private EditText mItemName;
     private EditText mItemInfo;
@@ -86,8 +100,18 @@ public class DetailActivity extends AppCompatActivity implements
         mQuantityDecrement = (Button) findViewById(R.id.quantity_decrement);
         mQuantityIncrement = (Button) findViewById(R.id.quantity_increment);
 
+        mItemImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Invoke method for opening an image folder
+                requestPermissions();
+                mItemHasChanged = true;
+            }
+        });
+
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modify them.
+//        mItemImage.setOnClickListener(mTouchListener);
         mItemName.setOnTouchListener(mTouchListener);
         mItemInfo.setOnTouchListener(mTouchListener);
         mItemSupplier.setOnTouchListener(mTouchListener);
@@ -144,6 +168,72 @@ public class DetailActivity extends AppCompatActivity implements
         });
     }
 
+    public void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+        ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                ActivityCompat.requestPermissions(this, new String[] {
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST);
+            }
+        } else {
+            mItemImage.setEnabled(true);
+            openImageSelector();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    openImageSelector();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                mImageUri = data.getData();
+                Log.v(LOG_TAG, "Uri: " + mImageUri);
+
+                mItemImage.setImageURI(mImageUri);
+                mItemImage.invalidate();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void openImageSelector() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
     private void saveNewItem() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
@@ -152,7 +242,7 @@ public class DetailActivity extends AppCompatActivity implements
         String itemSupplierString = mItemSupplier.getText().toString().trim();
         String itemQuantityString = mQuantity.getText().toString().trim();
         String itemPriceString = mItemPrice.getText().toString().trim();
-        // ToDo string for quantity
+        // ToDo buttons for quantity
 
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank
