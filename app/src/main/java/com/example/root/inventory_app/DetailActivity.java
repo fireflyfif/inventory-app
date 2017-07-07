@@ -100,11 +100,12 @@ public class DetailActivity extends AppCompatActivity implements
         mItemTypeSpinner = (Spinner) findViewById(R.id.spinner_item_type);
         mQuantityDecrement = (Button) findViewById(R.id.quantity_decrement);
         mQuantityIncrement = (Button) findViewById(R.id.quantity_increment);
+        mOrderItem = (Button) findViewById(R.id.order_item_button);
 
         mItemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Invoke method for opening an image folder
+                // Invoke method for opening an image folder
                 requestPermissions();
                 mItemHasChanged = true;
             }
@@ -112,7 +113,6 @@ public class DetailActivity extends AppCompatActivity implements
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modify them.
-//        mItemImage.setOnClickListener(mTouchListener);
         mItemName.setOnTouchListener(mTouchListener);
         mItemInfo.setOnTouchListener(mTouchListener);
         mItemSupplier.setOnTouchListener(mTouchListener);
@@ -134,6 +134,9 @@ public class DetailActivity extends AppCompatActivity implements
                 if (mEditQuantity.getText().toString().equals(null) ||
                         mEditQuantity.getText().toString().equals("")) {
                     Toast.makeText(DetailActivity.this, "Enter some value",
+                            Toast.LENGTH_SHORT).show();
+                } else if (quantity < 2) {
+                    Toast.makeText(DetailActivity.this, "Value can't be negative",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     quantity = Integer.parseInt(mEditQuantity.getText().toString());
@@ -158,6 +161,15 @@ public class DetailActivity extends AppCompatActivity implements
             }
         });
 
+    }
+
+    private void orderItem() {
+        mOrderItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setupSpinner() {
@@ -277,7 +289,6 @@ public class DetailActivity extends AppCompatActivity implements
         String itemSupplierString = mItemSupplier.getText().toString().trim();
         String itemQuantityString = mEditQuantity.getText().toString().trim();
         String itemPriceString = mItemPrice.getText().toString().trim();
-        // ToDo buttons for quantity
 
         // Check if this is supposed to be a new pet
         // and check if all the fields in the editor are blank

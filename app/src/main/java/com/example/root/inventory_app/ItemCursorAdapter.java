@@ -1,14 +1,17 @@
 package com.example.root.inventory_app;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,8 @@ import org.w3c.dom.Text;
  */
 
 public class ItemCursorAdapter extends CursorAdapter {
+
+    private MainActivity mainActivity = new MainActivity();
 
     /**
      * Constructs a new {@link ItemCursorAdapter}.
@@ -49,16 +54,19 @@ public class ItemCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
+
         // Find fields to populate in inflated template
         ImageView itemPicture = (ImageView) view.findViewById(R.id.item_picture);
         TextView itemName = (TextView) view.findViewById(R.id.item_name);
         TextView itemType = (TextView) view.findViewById(R.id.item_type);
         TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
         TextView itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
-        TextView itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
+        final TextView itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
+        final Button sellItemButton = (Button) view.findViewById(R.id.sell_button);
 
         // Find the columns of item attributes
+        final long id = cursor.getLong(cursor.getColumnIndex(ItemEntry._ID));
         int pictureColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_PICTURE);
         int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
         int typeColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
@@ -71,18 +79,28 @@ public class ItemCursorAdapter extends CursorAdapter {
         String name = cursor.getString(nameColumnIndex);
         int type = cursor.getInt(typeColumnIndex);
         double price = cursor.getDouble(priceColumnIndex);
-        int quantity = cursor.getInt(quantityColumnIndex);
+        final int quantity = cursor.getInt(quantityColumnIndex);
+        itemQuantity.setText(Integer.toString(quantity));
 
-        // If the item type string is empty of null, then use some default text
-        // that says "unknown type", so the TextView isn't blank.
-//        if (TextUtils.isEmpty(type)) {
-//            type = context.getString(R.string.unknown_type);
-//        }
+        // Set the text to "In stock" when quantity is more then 0 and
+        // "Out of stock" if it's 0
+        if (quantity == 0) {
+            itemInStock.setText(R.string.out_of_stock);
+            itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        } else {
+            itemInStock.setText(R.string.in_stock);
+            itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        }
 
         // Update the TextViews with the attributes for the current item
         itemPicture.setImageURI(pictureUri);
         // What does this do?
         itemPicture.invalidate();
+        // If the item name string is empty of null, then use some default text
+        // that says "No Name Provided", so the TextView isn't blank.
+        if (TextUtils.isEmpty(name)) {
+            name = context.getString(R.string.no_name_provided);
+        }
         itemName.setText(name);
         itemType.setText(Integer.toString(type));
         if (type == ItemEntry.ITEM_TYPE_OTHER) {
@@ -107,6 +125,23 @@ public class ItemCursorAdapter extends CursorAdapter {
             itemType.setText(R.string.spinner_decoration);
         }
         itemPrice.setText(Double.toString(price));
-        itemQuantity.setText(Integer.toString(quantity));
+
+        // Decrease the quantity of the items with 1 when click the Sell Button
+        sellItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quantity > 0) {
+                    int newItemQuantity = quantity - 1;
+
+                    Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
+
+                    ContentValues values = new ContentValues();
+                    values.put(ItemEntry.COLUMN_ITEM_QUANTITY, newItemQuantity);
+                    context.getContentResolver().update(currentItemUri, values, null, null);
+
+                    itemQuantity.setText(Integer.toString(newItemQuantity));
+                }
+            }
+        });
     }
 }

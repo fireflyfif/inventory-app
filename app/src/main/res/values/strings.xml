@@ -12,6 +12,10 @@
     <string name="spinner_textiles">Textiles</string>
     <string name="spinner_decoration">Decoration</string>
 
+    <string name="no_name_provided">No Name Provided</string>
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="in_stock">In Stock</string>
+
     <string name="detail_activity_title_add_item">Add Item</string>
     <string name="detail_activity_title_edit_item">Edit Item</string>
 
