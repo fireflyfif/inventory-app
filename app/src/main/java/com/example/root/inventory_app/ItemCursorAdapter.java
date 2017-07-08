@@ -54,19 +54,24 @@ public class ItemCursorAdapter extends CursorAdapter {
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).
+                inflate(R.layout.list_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        holder.itemPicture = (ImageView) view.findViewById(R.id.item_picture);
+        holder.itemName = (TextView) view.findViewById(R.id.item_name);
+        holder.itemType = (TextView) view.findViewById(R.id.item_type);
+        holder.itemPrice = (TextView) view.findViewById(R.id.item_price);
+        holder.itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
+        holder.itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
+        holder.sellItemButton = (Button) view.findViewById(R.id.sell_button);
+        view.setTag(holder);
+        return view;
     }
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
 
         final ViewHolder holder = (ViewHolder) view.getTag();
-        View itemsList = view;
-
-
-        if (itemsList == null) {
-//            itemsList = LayoutInflater.from(getContext()).inflate(R.layout.list_item, par)
-        }
 
         // Find the columns of item attributes
         final long id = cursor.getLong(cursor.getColumnIndex(ItemEntry._ID));
@@ -148,23 +153,16 @@ public class ItemCursorAdapter extends CursorAdapter {
         });
     }
 
-    public static class ViewHolder {
-        public final ImageView itemPicture;
-        public final TextView itemName;
-        public final TextView itemType;
-        public final TextView itemPrice;
-        public final TextView itemInStock;
-        public final TextView itemQuantity;
-        public final Button sellItemButton;
+    class ViewHolder {
+        ImageView itemPicture;
+        TextView itemName;
+        TextView itemType;
+        TextView itemPrice;
+        TextView itemInStock;
+        TextView itemQuantity;
+        Button sellItemButton;
 
         public ViewHolder(View view) {
-            itemPicture = (ImageView) view.findViewById(R.id.item_picture);
-            itemName = (TextView) view.findViewById(R.id.item_name);
-            itemType = (TextView) view.findViewById(R.id.item_type);
-            itemPrice = (TextView) view.findViewById(R.id.item_price);
-            itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
-            itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
-            sellItemButton = (Button) view.findViewById(R.id.sell_button);
         }
     }
 }
