@@ -2,6 +2,7 @@ package com.example.root.inventory_app;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.root.inventory_app.data.ItemContract;
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             case R.id.action_delete_all_items:
                 // Delete all items
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -115,6 +119,45 @@ public class MainActivity extends AppCompatActivity implements
 
         Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         Log.v(LOG_TAG, "Table items: " + newUri);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete all items?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAllItems();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteAllItems() {
+        if (ItemEntry.CONTENT_URI != null) {
+            int rowsDeleted = getContentResolver().delete(
+                    ItemEntry.CONTENT_URI,
+                    null,
+                    null);
+
+            // Show a toast message depending on whether or not the delete was successful.
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, "Error with deleting all items", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Items deleted", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

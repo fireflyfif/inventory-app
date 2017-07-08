@@ -31,8 +31,7 @@ import butterknife.ButterKnife;
 
 public class ItemCursorAdapter extends CursorAdapter {
 
-    private MainActivity mainActivity = new MainActivity();
-
+    private static final Uri DUMMY_PICTURE_URI = Uri.parse("android.resource://com.example.root.inventory_app/drawable/news_image_2;\n");
     /**
      * Constructs a new {@link ItemCursorAdapter}.
      *
@@ -57,13 +56,6 @@ public class ItemCursorAdapter extends CursorAdapter {
         View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).
                 inflate(R.layout.list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
-        holder.itemPicture = (ImageView) view.findViewById(R.id.item_picture);
-        holder.itemName = (TextView) view.findViewById(R.id.item_name);
-        holder.itemType = (TextView) view.findViewById(R.id.item_type);
-        holder.itemPrice = (TextView) view.findViewById(R.id.item_price);
-        holder.itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
-        holder.itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
-        holder.sellItemButton = (Button) view.findViewById(R.id.sell_button);
         view.setTag(holder);
         return view;
     }
@@ -100,7 +92,12 @@ public class ItemCursorAdapter extends CursorAdapter {
             holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
 
-        // Update the TextViews with the attributes for the current item
+        // Update the TextViews and ImageView with the attributes for the current item
+        // Use dummy picture as a placeholder when there is no image provided
+        // Not working
+        if (holder.itemPicture == null) {
+            holder.itemPicture.setImageURI(DUMMY_PICTURE_URI);
+        }
         holder.itemPicture.setImageURI(pictureUri);
         // What does this do?
         holder.itemPicture.invalidate();
@@ -153,7 +150,7 @@ public class ItemCursorAdapter extends CursorAdapter {
         });
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView itemPicture;
         TextView itemName;
         TextView itemType;
@@ -162,7 +159,14 @@ public class ItemCursorAdapter extends CursorAdapter {
         TextView itemQuantity;
         Button sellItemButton;
 
-        public ViewHolder(View view) {
+        private ViewHolder(View view) {
+            itemPicture = (ImageView) view.findViewById(R.id.item_picture);
+            itemName = (TextView) view.findViewById(R.id.item_name);
+            itemType = (TextView) view.findViewById(R.id.item_type);
+            itemPrice = (TextView) view.findViewById(R.id.item_price);
+            itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
+            itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
+            sellItemButton = (Button) view.findViewById(R.id.sell_button);
         }
     }
 }
