@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DetailActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -273,12 +278,60 @@ public class DetailActivity extends AppCompatActivity implements
                 Log.v(LOG_TAG, "Uri: " + mImageUri);
 
                 mItemImage.setImageURI(mImageUri);
+                mItemImage.setImageBitmap(getBitmapFromUri(mImageUri));
                 mItemImage.invalidate();
             }
         }
     }
 
-//    public Bitmap
+    public Bitmap getBitmapFromUri(Uri uri) {
+        if (uri == null || uri.toString().isEmpty()) {
+            return null;
+        }
+
+        // Get the dimensions of the View
+        int targetWidth = mItemImage.getWidth();
+        int targetHeight = mItemImage.getHeight();
+
+        InputStream inputStream = null;
+        try {
+            inputStream = this.getContentResolver().openInputStream(uri);
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(inputStream, null, bmOptions);
+            inputStream.close();
+
+            int photoWidth = bmOptions.outWidth;
+            int photoHeight = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / targetHeight);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            inputStream = this.getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, bmOptions);
+            inputStream.close();
+            return bitmap;
+
+        } catch (FileNotFoundException noFile) {
+            Log.e(LOG_TAG, "Failed to load image.", noFile);
+            return null;
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to load image.", e);
+            return null;
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException ioe) {
+            }
+        }
+    }
 
     private void openImageSelector() {
         Intent intent;
