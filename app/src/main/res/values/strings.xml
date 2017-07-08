@@ -12,6 +12,21 @@
     <string name="spinner_textiles">Textiles</string>
     <string name="spinner_decoration">Decoration</string>
 
+    <string name="detail_activity_item_name">Name: </string>
+    <string name="detail_activity_hint_name">Name of the item</string>
+    <string name="detail_activity_item_description">Description: </string>
+    <string name="detail_activity_hint_description">Information of the item</string>
+    <string name="detail_activity_item_category">Category: </string>
+    <string name="detail_activity_item_supplier">Supplier: </string>
+    <string name="detail_activity_hint_supplier">e.g. IKEA</string>
+    <string name="detail_activity_item_price">Price: </string>
+    <string name="detail_activity_hint_price">e.g. 59.90</string>
+    <string name="detail_activity_item_stock">In Stock:</string>
+    <string name="decrement_button">-</string>
+    <string name="increment_button">+</string>
+    <string name="order_button">Order</string>
+    <string name="detail_activity_hint_quantity">19</string>
+
     <string name="no_name_provided">No Name Provided</string>
     <string name="out_of_stock">Out of Stock</string>
     <string name="in_stock">In Stock</string>
@@ -53,6 +68,15 @@
 
     <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
+
+    <!-- Dialog message to ask the user to confirm deleting all items [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_all_items_msg">Delete all items?</string>
+
+    <!-- Toast message in editor when all items from the database were successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_all_items_successful">Items deleted</string>
+
+    <!-- Toast message in editor when all items from the database have failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_all_items_failed">Error with deleting all items</string>
 
     <string name="order_supplier_email">mailto: example_supplier@gmail.com</string>
     <string name="order_extra_supplier_email">To example_supplier@gmail.com</string>

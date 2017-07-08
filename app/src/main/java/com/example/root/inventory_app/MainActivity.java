@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements
 
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete all items?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(getString(R.string.delete_dialog_all_items_msg));
+        builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteAllItems();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (dialog != null) {
@@ -153,9 +153,11 @@ public class MainActivity extends AppCompatActivity implements
 
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
-                Toast.makeText(this, "Error with deleting all items", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_delete_all_items_failed),
+                        Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Items deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_delete_all_items_successful),
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }

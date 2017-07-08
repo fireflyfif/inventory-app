@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="Name:"
+                android:text="@string/detail_activity_item_name"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -41,8 +41,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="Name of the item"
-                android:inputType="textCapWords"
+                android:hint="@string/detail_activity_hint_name"
+                android:inputType="textCapCharacters"
                 android:textAppearance="?android:textAppearanceSmall" />
 
         </LinearLayout>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="Description:"
+                android:text="@string/detail_activity_item_description"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -69,8 +69,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="Information of the item"
-                android:inputType="textCapWords"
+                android:hint="@string/detail_activity_hint_description"
+                android:inputType="textCapSentences"
                 android:textAppearance="?android:textAppearanceSmall" />
 
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="Category:"
+                android:text="@string/detail_activity_item_category"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="Supplier:"
+                android:text="@string/detail_activity_item_supplier"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -130,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:hint="e.g. IKEA"
+                android:hint="@string/detail_activity_hint_supplier"
                 android:inputType="textCapWords"
                 android:textAppearance="?android:textAppearanceSmall" />
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="Price:"
+                android:text="@string/detail_activity_item_price"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -169,7 +169,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:hint="e.g. 59.90"
+                    android:hint="@string/detail_activity_hint_price"
                     android:inputType="number|numberDecimal"
                     android:textAppearance="?android:textAppearanceSmall" />
 
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="6dp"
-                android:text="In Stock:"
+                android:text="@string/detail_activity_item_stock"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
@@ -204,17 +204,17 @@
                     android:id="@+id/quantity_decrement"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="-" />
+                    android:text="@string/decrement_button" />
 
                 <EditText
                     android:id="@+id/edit_item_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:padding="6dp"
-                    android:hint="10"
+                    android:hint="@string/detail_activity_hint_quantity"
                     android:inputType="number"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textStyle="bold" />
@@ -223,14 +223,14 @@
                     android:id="@+id/quantity_increment"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="+" />
+                    android:text="@string/increment_button" />
 
                 <Button
                     android:id="@+id/order_item_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    android:text="Order" />
+                    android:text="@string/order_button" />
 
             </LinearLayout>
         </LinearLayout>
