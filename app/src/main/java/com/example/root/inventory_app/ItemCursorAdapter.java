@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,9 @@ import com.example.root.inventory_app.data.ItemContract;
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
 
 import org.w3c.dom.Text;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by root on 7/5/17.
@@ -56,14 +60,13 @@ public class ItemCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
 
-        // Find fields to populate in inflated template
-        ImageView itemPicture = (ImageView) view.findViewById(R.id.item_picture);
-        TextView itemName = (TextView) view.findViewById(R.id.item_name);
-        TextView itemType = (TextView) view.findViewById(R.id.item_type);
-        TextView itemPrice = (TextView) view.findViewById(R.id.item_price);
-        TextView itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
-        final TextView itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
-        final Button sellItemButton = (Button) view.findViewById(R.id.sell_button);
+        final ViewHolder holder = (ViewHolder) view.getTag();
+        View itemsList = view;
+
+
+        if (itemsList == null) {
+//            itemsList = LayoutInflater.from(getContext()).inflate(R.layout.list_item, par)
+        }
 
         // Find the columns of item attributes
         final long id = cursor.getLong(cursor.getColumnIndex(ItemEntry._ID));
@@ -80,54 +83,54 @@ public class ItemCursorAdapter extends CursorAdapter {
         int type = cursor.getInt(typeColumnIndex);
         double price = cursor.getDouble(priceColumnIndex);
         final int quantity = cursor.getInt(quantityColumnIndex);
-        itemQuantity.setText(Integer.toString(quantity));
+        holder.itemQuantity.setText(Integer.toString(quantity));
 
         // Set the text to "In stock" when quantity is more then 0 and
         // "Out of stock" if it's 0
         if (quantity == 0) {
-            itemInStock.setText(R.string.out_of_stock);
-            itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            holder.itemInStock.setText(R.string.out_of_stock);
+            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         } else {
-            itemInStock.setText(R.string.in_stock);
-            itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+            holder.itemInStock.setText(R.string.in_stock);
+            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
 
         // Update the TextViews with the attributes for the current item
-        itemPicture.setImageURI(pictureUri);
+        holder.itemPicture.setImageURI(pictureUri);
         // What does this do?
-        itemPicture.invalidate();
+        holder.itemPicture.invalidate();
         // If the item name string is empty of null, then use some default text
         // that says "No Name Provided", so the TextView isn't blank.
         if (TextUtils.isEmpty(name)) {
             name = context.getString(R.string.no_name_provided);
         }
-        itemName.setText(name);
-        itemType.setText(Integer.toString(type));
+        holder.itemName.setText(name);
+        holder.itemType.setText(Integer.toString(type));
         if (type == ItemEntry.ITEM_TYPE_OTHER) {
-            itemType.setText(R.string.spinner_other);
+            holder.itemType.setText(R.string.spinner_other);
         } else if (type == ItemEntry.ITEM_TYPE_SOFAS) {
-            itemType.setText(R.string.spinner_sofas);
+            holder.itemType.setText(R.string.spinner_sofas);
         } else if (type == ItemEntry.ITEM_TYPE_CHAIRS) {
-            itemType.setText(R.string.spinner_chairs);
+            holder.itemType.setText(R.string.spinner_chairs);
         } else if (type == ItemEntry.ITEM_TYPE_TABLES) {
-            itemType.setText(R.string.spinner_tables);
+            holder.itemType.setText(R.string.spinner_tables);
         } else if (type == ItemEntry.ITEM_TYPE_BEDS) {
-            itemType.setText(R.string.spinner_beds);
+            holder.itemType.setText(R.string.spinner_beds);
         } else if (type == ItemEntry.ITEM_TYPE_DESKS) {
-            itemType.setText(R.string.spinner_desks);
+            holder.itemType.setText(R.string.spinner_desks);
         } else if (type == ItemEntry.ITEM_TYPE_CABINETS) {
-            itemType.setText(R.string.spinner_cabinets);
+            holder.itemType.setText(R.string.spinner_cabinets);
         } else if (type == ItemEntry.ITEM_TYPE_WARDROBES) {
-            itemType.setText(R.string.spinner_wardrobes);
+            holder.itemType.setText(R.string.spinner_wardrobes);
         } else if (type == ItemEntry.ITEM_TYPE_TEXTILES) {
-            itemType.setText(R.string.spinner_textiles);
+            holder.itemType.setText(R.string.spinner_textiles);
         } else {
-            itemType.setText(R.string.spinner_decoration);
+            holder.itemType.setText(R.string.spinner_decoration);
         }
-        itemPrice.setText(Double.toString(price));
+        holder.itemPrice.setText(Double.toString(price));
 
         // Decrease the quantity of the items with 1 when click the Sell Button
-        sellItemButton.setOnClickListener(new View.OnClickListener() {
+        holder.sellItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (quantity > 0) {
@@ -139,9 +142,29 @@ public class ItemCursorAdapter extends CursorAdapter {
                     values.put(ItemEntry.COLUMN_ITEM_QUANTITY, newItemQuantity);
                     context.getContentResolver().update(currentItemUri, values, null, null);
 
-                    itemQuantity.setText(Integer.toString(newItemQuantity));
+                    holder.itemQuantity.setText(Integer.toString(newItemQuantity));
                 }
             }
         });
+    }
+
+    public static class ViewHolder {
+        public final ImageView itemPicture;
+        public final TextView itemName;
+        public final TextView itemType;
+        public final TextView itemPrice;
+        public final TextView itemInStock;
+        public final TextView itemQuantity;
+        public final Button sellItemButton;
+
+        public ViewHolder(View view) {
+            itemPicture = (ImageView) view.findViewById(R.id.item_picture);
+            itemName = (TextView) view.findViewById(R.id.item_name);
+            itemType = (TextView) view.findViewById(R.id.item_type);
+            itemPrice = (TextView) view.findViewById(R.id.item_price);
+            itemInStock = (TextView) view.findViewById(R.id.item_in_stock);
+            itemQuantity = (TextView) view.findViewById(R.id.item_quantity);
+            sellItemButton = (Button) view.findViewById(R.id.sell_button);
+        }
     }
 }
