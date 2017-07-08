@@ -125,6 +125,7 @@ public class DetailActivity extends AppCompatActivity implements
         setupSpinner();
         decrementQuantity();
         incrementQuantity();
+        orderItem();
     }
 
     private void decrementQuantity() {
@@ -167,7 +168,12 @@ public class DetailActivity extends AppCompatActivity implements
         mOrderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO);
+                sendEmailIntent.setData(Uri.parse("mailto: example_supplier@gmail.com"));
+                sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, "To example_supplier@gmail.com");
+                if (sendEmailIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(sendEmailIntent);
+                }
             }
         });
     }
