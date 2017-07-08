@@ -66,6 +66,7 @@ public class DetailActivity extends AppCompatActivity implements
     private int quantity;
 
     private boolean mItemHasChanged = false;
+    private boolean itemCanBeSaved = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -289,7 +290,7 @@ public class DetailActivity extends AppCompatActivity implements
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    private void saveNewItem() {
+    private boolean saveNewItem() {
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String itemNameString = mItemName.getText().toString().trim();
@@ -308,22 +309,25 @@ public class DetailActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(itemPriceString) &&
                 mType == ItemEntry.ITEM_TYPE_OTHER &&
                 mImageUri == null) {
-            return;
+            itemCanBeSaved = true;
+            return itemCanBeSaved;
         }
 
         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
         if (mImageUri == null) {
-            Toast.makeText(this, "Something about the image", Toast.LENGTH_SHORT).show();
-        }
-        if (TextUtils.isEmpty(itemNameString)) {
-            Toast.makeText(this, "Item requires a name", Toast.LENGTH_SHORT).show();
-            // Don't really work
-            mItemName.setText("No Name Provided");
-            return;
+            Toast.makeText(this, "The Item requires an image", Toast.LENGTH_SHORT).show();
+            itemCanBeSaved = false;
+            return itemCanBeSaved;
         }
         values.put(ItemEntry.COLUMN_ITEM_PICTURE, mImageUri.toString());
+
+        if (TextUtils.isEmpty(itemNameString)) {
+            Toast.makeText(this, "The Item should have a name", Toast.LENGTH_SHORT).show();
+            itemCanBeSaved = false;
+            return itemCanBeSaved;
+        }
         values.put(ItemEntry.COLUMN_ITEM_NAME, itemNameString);
         values.put(ItemEntry.COLUMN_ITEM_INFORMATION, itemInfoString);
         values.put(ItemEntry.COLUMN_ITEM_TYPE, mType);
@@ -367,7 +371,8 @@ public class DetailActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         }
-
+        itemCanBeSaved = true;
+        return itemCanBeSaved;
     }
 
     @Override
@@ -385,8 +390,9 @@ public class DetailActivity extends AppCompatActivity implements
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 // Save the Item to the database
-                saveNewItem();
-                finish();
+                if (saveNewItem()) {
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

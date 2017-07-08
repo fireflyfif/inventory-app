@@ -95,16 +95,11 @@ public class ItemCursorAdapter extends CursorAdapter {
         // Update the TextViews and ImageView with the attributes for the current item
         // Use dummy picture as a placeholder when there is no image provided
         // Not working
-        if (holder.itemPicture == null) {
-            holder.itemPicture.setImageURI(DUMMY_PICTURE_URI);
-        }
         holder.itemPicture.setImageURI(pictureUri);
         // What does this do?
         holder.itemPicture.invalidate();
-        // If the item name string is empty of null, then use some default text
-        // that says "No Name Provided", so the TextView isn't blank.
-        if (TextUtils.isEmpty(name)) {
-            name = context.getString(R.string.no_name_provided);
+        if (holder.itemPicture == null) {
+            holder.itemPicture.setImageURI(DUMMY_PICTURE_URI);
         }
         holder.itemName.setText(name);
         holder.itemType.setText(Integer.toString(type));

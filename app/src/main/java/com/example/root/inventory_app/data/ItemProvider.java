@@ -142,12 +142,6 @@ public class ItemProvider extends ContentProvider {
             throw new IllegalArgumentException("Item requires valid quantity.");
         }
 
-        // Check that the supplier is not null
-//        String itemSupplier = values.getAsString(ItemEntry.COLUMN_ITEM_SUPPLIER);
-//        if (itemSupplier == null) {
-//            throw new IllegalArgumentException("Item requires a supplier.");
-//        }
-
         // Check that the price is provided, check that it's greater then 0
         Integer itemPrice = values.getAsInteger(ItemEntry.COLUMN_ITEM_PRICE);
         if (itemPrice != null && itemPrice < 0) {
