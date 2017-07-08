@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -64,6 +65,7 @@ public class DetailActivity extends AppCompatActivity implements
     private Button mQuantityIncrement;
     private Button mOrderItem;
     private int quantity;
+    private int mType = 0;
 
     private boolean mItemHasChanged = false;
     private boolean itemCanBeSaved = false;
@@ -71,12 +73,10 @@ public class DetailActivity extends AppCompatActivity implements
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
+            mItemHasChanged = true;
             return false;
         }
     };
-
-    private int mType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,14 +138,14 @@ public class DetailActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 if (mEditQuantity.getText().toString().equals(null) ||
                         mEditQuantity.getText().toString().equals("")) {
-                    Toast.makeText(DetailActivity.this, "Enter some value",
+                    Toast.makeText(DetailActivity.this, getString(R.string.quantity_no_value),
                             Toast.LENGTH_SHORT).show();
                 } else if (quantity < 2) {
-                    Toast.makeText(DetailActivity.this, "Value can't be negative",
+                    Toast.makeText(DetailActivity.this, getString(R.string.quantity_no_negative),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     quantity = Integer.parseInt(mEditQuantity.getText().toString());
-                    mEditQuantity.setText(String.valueOf(quantity-1));
+                    mEditQuantity.setText(String.valueOf(quantity - 1));
                 }
             }
         });
@@ -157,11 +157,11 @@ public class DetailActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 if (mEditQuantity.getText().toString().equals(null) ||
                         mEditQuantity.getText().toString().equals("")) {
-                    Toast.makeText(DetailActivity.this, "Enter some value",
+                    Toast.makeText(DetailActivity.this, getString(R.string.quantity_no_value),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     quantity = Integer.parseInt(mEditQuantity.getText().toString());
-                    mEditQuantity.setText(String.valueOf(quantity+1));
+                    mEditQuantity.setText(String.valueOf(quantity + 1));
                 }
             }
         });
@@ -172,8 +172,9 @@ public class DetailActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO);
-                sendEmailIntent.setData(Uri.parse("mailto: example_supplier@gmail.com"));
-                sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, "To example_supplier@gmail.com");
+                sendEmailIntent.setData(Uri.parse(getString(R.string.order_supplier_email)));
+                sendEmailIntent.putExtra(Intent.EXTRA_EMAIL,
+                        getString(R.string.order_extra_supplier_email));
                 if (sendEmailIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(sendEmailIntent);
                 }
@@ -228,8 +229,8 @@ public class DetailActivity extends AppCompatActivity implements
     public void requestPermissions() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-        ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -238,9 +239,9 @@ public class DetailActivity extends AppCompatActivity implements
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
             } else {
-                ActivityCompat.requestPermissions(this, new String[] {
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                ActivityCompat.requestPermissions(this, new String[]{
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST);
             }
         } else {
@@ -276,6 +277,8 @@ public class DetailActivity extends AppCompatActivity implements
             }
         }
     }
+
+//    public Bitmap
 
     private void openImageSelector() {
         Intent intent;
@@ -317,14 +320,16 @@ public class DetailActivity extends AppCompatActivity implements
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
         if (mImageUri == null) {
-            Toast.makeText(this, "The Item requires an image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_require_picture),
+                    Toast.LENGTH_SHORT).show();
             itemCanBeSaved = false;
             return itemCanBeSaved;
         }
         values.put(ItemEntry.COLUMN_ITEM_PICTURE, mImageUri.toString());
 
         if (TextUtils.isEmpty(itemNameString)) {
-            Toast.makeText(this, "The Item should have a name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_require_name),
+                    Toast.LENGTH_SHORT).show();
             itemCanBeSaved = false;
             return itemCanBeSaved;
         }
@@ -351,10 +356,10 @@ public class DetailActivity extends AppCompatActivity implements
 
             // Show a toast message depending on whether or not the insertion was successful
             if (newUri == null) {
-                Toast.makeText(this, "Error with saving the item",
+                Toast.makeText(this, getString(R.string.error_save_item),
                         Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Item saved",
+                Toast.makeText(this, getString(R.string.saved_item),
                         Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -364,10 +369,10 @@ public class DetailActivity extends AppCompatActivity implements
                     null,
                     null);
             if (mRowsUpdated == 0) {
-                Toast.makeText(this, "Error with updating the item " + mRowsUpdated,
+                Toast.makeText(this, getString(R.string.error_update_item) + mRowsUpdated,
                         Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Item updated",
+                Toast.makeText(this, getString(R.string.updated_item),
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -420,9 +425,35 @@ public class DetailActivity extends AppCompatActivity implements
 
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
-
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * This method is called when the back button is pressed.
+     */
+    @Override
+    public void onBackPressed() {
+        // If the item hasn't changed, continue with handling back button press
+        if (!mItemHasChanged) {
+            super.onBackPressed();
+            return;
+        }
+
+        // Otherwise if there are unsaved changes, setup a dialog to warn the user.
+        // Create a click listener to handle the user confirming that changes should be discarded.
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        // User clicked "Discard" button, close the current activity.
+                        finish();
+                    }
+                };
+
+        // Show dialog that there are unsaved changes
+        showUnsavedChangesDialog(discardButtonClickListener);
     }
 
     /**
@@ -437,16 +468,17 @@ public class DetailActivity extends AppCompatActivity implements
         // Create an AlertDialog,Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Discard your changes and quit editing?");
-        builder.setPositiveButton("Discard", discardButtonClickListener);
-        builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        builder.setMessage(getString(R.string.discard_changes_dialog_msg));
+        builder.setPositiveButton(getString(R.string.discard), discardButtonClickListener);
+        builder.setNegativeButton(getString(R.string.keep_editing),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -456,24 +488,25 @@ public class DetailActivity extends AppCompatActivity implements
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete this item?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteItem();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
+        builder.setMessage(getString(R.string.delete_dialog_msg));
+        builder.setPositiveButton(getString(R.string.delete),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteItem();
+                    }
+                });
+        builder.setNegativeButton(getString(R.string.cancel),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked the "Cancel" button, so dismiss the dialog
+                        // and continue editing the pet.
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -496,10 +529,12 @@ public class DetailActivity extends AppCompatActivity implements
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, "Error with deleting item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_delete_item_failed),
+                        Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, "Item deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.editor_delete_item_successful),
+                        Toast.LENGTH_SHORT).show();
             }
         }
         // Close the activity
@@ -508,7 +543,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v("DetailActivity", "Now is onCreateLoader called");
+        Log.v(LOG_TAG, "Now is onCreateLoader called");
         // Define a projection that contains all columns from the items table
         String[] projection = {
                 ItemEntry._ID,
@@ -518,7 +553,7 @@ public class DetailActivity extends AppCompatActivity implements
                 ItemEntry.COLUMN_ITEM_INFORMATION,
                 ItemEntry.COLUMN_ITEM_SUPPLIER,
                 ItemEntry.COLUMN_ITEM_PRICE,
-                ItemEntry.COLUMN_ITEM_QUANTITY };
+                ItemEntry.COLUMN_ITEM_QUANTITY};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,
@@ -531,7 +566,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.v("DetailActivity", "Now is onLoadFinished called");
+        Log.v(LOG_TAG, "Now is onLoadFinished called");
         // Proceed with moving to the first row of the cursor and reading data from it
         if (cursor.moveToFirst()) {
             // Find the columns of item attributes that are relevant
@@ -599,7 +634,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.v("DetailActivity", "Now is onLoaderReset called");
+        Log.v(LOG_TAG, "Now is onLoaderReset called");
         mItemName.setText("");
         mItemInfo.setText("");
         mItemSupplier.setText("");

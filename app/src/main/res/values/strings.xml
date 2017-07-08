@@ -16,6 +16,47 @@
     <string name="out_of_stock">Out of Stock</string>
     <string name="in_stock">In Stock</string>
 
+    <!-- Toast messages for Quantity values -->
+    <string name="quantity_no_value">Enter some value</string>
+    <string name="quantity_no_negative">Value can\'t be negative</string>
+
+    <!-- Toast messages for item requirements -->
+    <string name="toast_require_picture">The Item requires an image</string>
+    <string name="toast_require_name">The Item requires a name</string>
+
+    <!-- Toast messages for saving and updating the item -->
+    <string name="error_save_item">Error with saving the item</string>
+    <string name="saved_item">Item saved</string>
+    <string name="error_update_item">Error with updating the item </string>
+    <string name="updated_item">Item updated</string>
+
+    <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
+    <string name="discard_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_item_successful">Item deleted</string>
+
+    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_item_failed">Error with deleting item</string>
+
+    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this item?</string>
+
+    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+    <string name="order_supplier_email">mailto: example_supplier@gmail.com</string>
+    <string name="order_extra_supplier_email">To example_supplier@gmail.com</string>
+
     <string name="detail_activity_title_add_item">Add Item</string>
     <string name="detail_activity_title_edit_item">Edit Item</string>
 

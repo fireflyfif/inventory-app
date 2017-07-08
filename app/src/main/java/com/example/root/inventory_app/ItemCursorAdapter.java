@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.root.inventory_app.data.ItemContract;
 import com.example.root.inventory_app.data.ItemContract.ItemEntry;
