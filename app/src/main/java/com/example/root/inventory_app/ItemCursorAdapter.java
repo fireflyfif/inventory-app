@@ -87,10 +87,10 @@ public class ItemCursorAdapter extends CursorAdapter {
         // "Out of stock" if it's 0
         if (quantity == 0) {
             holder.itemInStock.setText(R.string.out_of_stock);
-            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         } else {
             holder.itemInStock.setText(R.string.in_stock);
-            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+            holder.itemInStock.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         }
 
         // Update the TextViews and ImageView with the attributes for the current item

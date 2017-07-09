@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/layout_margin_16dp">
+        android:padding="6dp">
 
         <ImageView
             android:id="@+id/item_picture_detail"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/news_image_2" />
+            android:src="@drawable/table_ikea" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,27 +153,14 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/edit_item_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2">
-
-                <Spinner
-                    android:id="@+id/currency_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/edit_item_price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:hint="@string/detail_activity_hint_price"
-                    android:inputType="number|numberDecimal"
-                    android:textAppearance="?android:textAppearanceSmall" />
-
-            </LinearLayout>
+                android:layout_weight="2"
+                android:hint="@string/detail_activity_hint_price"
+                android:inputType="number|numberDecimal"
+                android:textAppearance="?android:textAppearanceSmall" />
 
         </LinearLayout>
 
@@ -202,33 +189,29 @@
 
                 <Button
                     android:id="@+id/quantity_decrement"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.ButtonStyle.PlusAndMinus"
                     android:text="@string/decrement_button" />
 
                 <EditText
                     android:id="@+id/edit_item_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:padding="6dp"
                     android:hint="@string/detail_activity_hint_quantity"
                     android:inputType="number"
+                    android:padding="6dp"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/quantity_increment"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.ButtonStyle.PlusAndMinus"
                     android:text="@string/increment_button" />
 
                 <Button
                     android:id="@+id/order_item_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/AppTheme.ButtonStyle.Order"
                     android:layout_marginLeft="6dp"
                     android:text="@string/order_button" />
 

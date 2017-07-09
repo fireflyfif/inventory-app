@@ -19,13 +19,14 @@
     <string name="detail_activity_item_category">Category: </string>
     <string name="detail_activity_item_supplier">Supplier: </string>
     <string name="detail_activity_hint_supplier">e.g. IKEA</string>
-    <string name="detail_activity_item_price">Price: </string>
+    <string name="detail_activity_item_price">Price EUR: </string>
     <string name="detail_activity_hint_price">e.g. 59.90</string>
     <string name="detail_activity_item_stock">In Stock:</string>
     <string name="decrement_button">-</string>
     <string name="increment_button">+</string>
     <string name="order_button">Order</string>
-    <string name="detail_activity_hint_quantity">19</string>
+    <string name="detail_activity_hint_quantity">12</string>
+    <string name="sell_button">Sell</string>
 
     <string name="no_name_provided">No Name Provided</string>
     <string name="out_of_stock">Out of Stock</string>
@@ -96,5 +97,5 @@
 
     <string name="unknown_type">Unknown type</string>
 
-    <string name="dummy_picture_uri">android.resource://com.example.root.inventory_app/drawable/news_image_2</string>
+    <string name="dummy_picture_uri">android.resource://com.example.root.inventory_app/drawable/table_ikea</string>
 </resources>

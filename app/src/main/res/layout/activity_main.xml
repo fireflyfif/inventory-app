@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:text="@string/empty_view_text"
-            android:textAppearance="?android:textAppearanceSmall" />
+            android:textAppearance="?android:textAppearanceMedium" />
 
     </RelativeLayout>
 
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_add"
         android:layout_margin="@dimen/layout_margin_16dp" />
 
 </RelativeLayout>

@@ -1,11 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.ButtonStyle.Order">
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="AppTheme.ButtonStyle.PlusAndMinus">
+        <item name="android:layout_width">50dp</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
     </style>
 
 </resources>
