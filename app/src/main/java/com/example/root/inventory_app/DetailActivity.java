@@ -357,7 +357,7 @@ public class DetailActivity extends AppCompatActivity implements
         String itemQuantityString = mEditQuantity.getText().toString().trim();
         String itemPriceString = mItemPrice.getText().toString().trim();
 
-        // Check if this is supposed to be a new pet
+        // Check if this is supposed to be a new item
         // and check if all the fields in the editor are blank
         if (mCurrentItemUri == null &&
                 TextUtils.isEmpty(itemNameString) &&
@@ -367,12 +367,14 @@ public class DetailActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(itemPriceString) &&
                 mType == ItemEntry.ITEM_TYPE_OTHER &&
                 mImageUri == null) {
-            itemCanBeSaved = true;
+            Toast.makeText(this, getString(R.string.toast_require_attributes),
+                    Toast.LENGTH_SHORT).show();
+            itemCanBeSaved = false;
             return itemCanBeSaved;
         }
 
         // Create a ContentValues object where column names are the keys,
-        // and pet attributes from the editor are the values.
+        // and item attributes from the editor are the values.
         ContentValues values = new ContentValues();
         if (mImageUri == null) {
             Toast.makeText(this, getString(R.string.toast_require_picture),

@@ -41,6 +41,7 @@
     <string name="quantity_limit">Value can\'t be more than 1000.</string>
 
     <!-- Toast messages for item requirements -->
+    <string name="toast_require_attributes">The Item requires some information</string>
     <string name="toast_require_picture">The Item requires an image</string>
     <string name="toast_require_name">The Item requires a name</string>
 

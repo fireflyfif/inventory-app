@@ -95,9 +95,7 @@ public class ItemCursorAdapter extends CursorAdapter {
 
         // Update the TextViews and ImageView with the attributes for the current item
         // Use dummy picture as a placeholder when there is no image provided
-        // Not working
         holder.itemPicture.setImageURI(pictureUri);
-        // What does this do?
         holder.itemPicture.invalidate();
         if (holder.itemPicture == null) {
             holder.itemPicture.setImageURI(DUMMY_PICTURE_URI);
