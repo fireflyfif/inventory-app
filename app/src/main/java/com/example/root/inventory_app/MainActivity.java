@@ -110,12 +110,12 @@ public class MainActivity extends AppCompatActivity implements
         // and Chair "FRANKLIN" is the new item with its values.
         ContentValues values = new ContentValues();
         values.put(ItemEntry.COLUMN_ITEM_PICTURE, getString(R.string.dummy_picture_uri));
-        values.put(ItemEntry.COLUMN_ITEM_TYPE, ItemEntry.ITEM_TYPE_CHAIRS);
-        values.put(ItemEntry.COLUMN_ITEM_NAME, "FRANKLIN");
-        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 10);
+        values.put(ItemEntry.COLUMN_ITEM_TYPE, ItemEntry.ITEM_TYPE_TABLES);
+        values.put(ItemEntry.COLUMN_ITEM_NAME, "LACK");
+        values.put(ItemEntry.COLUMN_ITEM_QUANTITY, 15);
         values.put(ItemEntry.COLUMN_ITEM_SUPPLIER, "IKEA");
-        values.put(ItemEntry.COLUMN_ITEM_INFORMATION, "Modern Chair from Ikea.");
-        values.put(ItemEntry.COLUMN_ITEM_PRICE, 29.50);
+        values.put(ItemEntry.COLUMN_ITEM_INFORMATION, "The high-gloss surfaces reflect light and give a vibrant look.");
+        values.put(ItemEntry.COLUMN_ITEM_PRICE, 9.05);
 
         Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
         Log.v(LOG_TAG, "Table items: " + newUri);

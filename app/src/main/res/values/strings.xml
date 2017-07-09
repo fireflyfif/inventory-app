@@ -32,9 +32,13 @@
     <string name="out_of_stock">Out of Stock</string>
     <string name="in_stock">In Stock</string>
 
+    <string name="item_photo_thumbnail">Image of the added item.</string>
+    <string name="add_icon">Image for adding a new item.</string>
+
     <!-- Toast messages for Quantity values -->
     <string name="quantity_no_value">Enter some value</string>
     <string name="quantity_no_negative">Value can\'t be negative</string>
+    <string name="quantity_limit">Value can\'t be more than 1000.</string>
 
     <!-- Toast messages for item requirements -->
     <string name="toast_require_picture">The Item requires an image</string>
@@ -86,6 +90,7 @@
     <string name="detail_activity_title_edit_item">Edit Item</string>
 
     <string name="empty_view_text">It\'s a bit lonely here.</string>
+    <string name="empty_view_text_subtitle">Start by adding a new item.</string>
 
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
 

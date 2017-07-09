@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="layout_margin_16dp">16dp</dimen>
+    <dimen name="layout_margin_6dp">6dp</dimen>
+    <dimen name="button_quantity_width">50dp</dimen>
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="width_0dp">0dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_6dp">6dp</dimen>
+    <dimen name="image_detail_height">160dp</dimen>
 </resources>

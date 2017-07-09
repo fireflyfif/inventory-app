@@ -50,7 +50,6 @@ public class DetailActivity extends AppCompatActivity implements
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     private static final int PICK_IMAGE_REQUEST = 0;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int MY_PERMISSIONS_REQUEST = 2;
 
     private static final int EXISTING_ITEM_LOADER = 0;
@@ -163,6 +162,9 @@ public class DetailActivity extends AppCompatActivity implements
                 if (mEditQuantity.getText().toString().equals(null) ||
                         mEditQuantity.getText().toString().equals("")) {
                     Toast.makeText(DetailActivity.this, getString(R.string.quantity_no_value),
+                            Toast.LENGTH_SHORT).show();
+                } else if (quantity > 997) {
+                    Toast.makeText(DetailActivity.this, getString(R.string.quantity_limit),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     quantity = Integer.parseInt(mEditQuantity.getText().toString());

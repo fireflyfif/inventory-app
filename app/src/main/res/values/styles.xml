@@ -20,9 +20,115 @@
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
-    <style name="AppTheme.ButtonStyle.PlusAndMinus">
-        <item name="android:layout_width">50dp</item>
+    <style name="AppTheme.ButtonStyle.Quantity">
+        <item name="android:layout_width">@dimen/button_quantity_width</item>
         <item name="backgroundTint">@color/colorPrimary</item>
     </style>
 
+    <style name="fab_button" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_margin">@dimen/layout_margin_16dp</item>
+    </style>
+
+    <style name="itemImage_thumbnail" parent="AppTheme">
+        <item name="android:layout_width">@dimen/image_thumbnail_size</item>
+        <item name="android:layout_height">@dimen/image_thumbnail_size</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_margin">@dimen/layout_margin_6dp</item>
+    </style>
+
+    <style name="itemName_Title" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/color_darkGray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="itemName_Title.Category">
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/color_gray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="itemName_Title.Price">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <style name="itemName_Title.Price.Quantity">
+        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">end</item>
+        <item name="android:padding">@dimen/padding_10dp</item>
+        <item name="android:background">@color/color_lightGray</item>
+    </style>
+
+    <style name="LinearLayout_horizontal" parent="AppTheme">
+        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Image_DetailScreen" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/image_detail_height</item>
+        <item name="android:scaleType">center</item>
+    </style>
+
+    <style name="itemName_Text" parent="AppTheme">
+        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">@dimen/padding_6dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_gray</item>
+    </style>
+
+    <style name="item_editText" parent="AppTheme">
+        <item name="android:layout_width">@dimen/width_0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <style name="item_quantity_editText" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/padding_10dp</item>
+        <item name="android:layout_marginRight">@dimen/padding_10dp</item>
+        <item name="android:padding">@dimen/padding_6dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <style name="LinearLayout_horizontal_detail" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">@dimen/padding_6dp</item>
+        <item name="android:paddingTop">@dimen/padding_6dp</item>
+    </style>
+
+    <style name="empty_view_text" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="empty_view_icon" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:padding">@dimen/padding_6dp</item>
+    </style>
 </resources>

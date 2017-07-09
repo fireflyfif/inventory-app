@@ -17,23 +17,30 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
+        <ImageView
+            style="@style/empty_view_icon"
+            android:layout_below="@+id/empty_view_text_subtitle"
+            android:contentDescription="@string/add_icon"
+            android:src="@drawable/ic_action_add" />
+
         <TextView
             android:id="@+id/empty_view_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
+            style="@style/empty_view_text"
             android:text="@string/empty_view_text"
-            android:textAppearance="?android:textAppearanceMedium" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/empty_view_text_subtitle"
+            style="@style/empty_view_text"
+            android:layout_below="@+id/empty_view_text"
+            android:paddingTop="@dimen/padding_6dp"
+            android:text="@string/empty_view_text_subtitle" />
 
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_add"
-        android:layout_margin="@dimen/layout_margin_16dp" />
+        style="@style/fab_button"
+        android:src="@drawable/ic_action_add" />
 
 </RelativeLayout>

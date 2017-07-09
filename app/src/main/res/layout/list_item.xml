@@ -8,83 +8,58 @@
 
     <ImageView
         android:id="@+id/item_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:layout_margin="10dp"
-        android:src="@drawable/news_image_2" />
+        style="@style/itemImage_thumbnail"
+        android:contentDescription="@string/item_photo_thumbnail"
+        android:src="@drawable/table_ikea" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/layout_margin_6dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/item_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_gravity="top"
-            android:textColor="@color/color_darkGray"
-            android:layout_marginBottom="6dp"
-            android:textAppearance="?android:textAppearanceMedium"
+            style="@style/itemName_Title"
+            android:layout_marginBottom="@dimen/layout_margin_6dp"
             tools:text="@string/detail_activity_hint_name" />
 
         <TextView
             android:id="@+id/item_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/color_gray"
-            android:textAppearance="?android:textAppearanceSmall"
+            style="@style/itemName_Title.Category"
             tools:text="@string/spinner_other" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="horizontal">
+                style="@style/LinearLayout_horizontal"
+                android:gravity="start">
 
                 <TextView
                     android:id="@+id/price_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_darkGray"
-                    android:layout_marginRight="6dp"
-                    android:gravity="start"
+                    style="@style/itemName_Title.Price"
+                    android:layout_marginRight="@dimen/layout_margin_6dp"
                     android:text="@string/detail_activity_item_price" />
 
                 <TextView
                     android:id="@+id/item_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_darkGray"
-                    android:paddingLeft="6dp"
+                    style="@style/itemName_Title.Price"
+                    android:paddingLeft="@dimen/layout_margin_6dp"
                     tools:text="30" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="vertical">
+                style="@style/LinearLayout_horizontal"
+                android:gravity="end">
 
                 <TextView
                     android:id="@+id/item_in_stock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_alignParentRight="true"
+                    style="@style/itemName_Title.Price"
                     tools:text="@string/in_stock" />
 
             </LinearLayout>
@@ -95,34 +70,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/sell_button"
                     style="@style/AppTheme.ButtonStyle"
-                    android:layout_marginRight="50dp"
-                    android:text="@string/sell_button"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:text="@string/sell_button" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/item_quantity"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:background="@color/color_lightGray"
-                android:padding="10dp"
-                android:layout_marginLeft="30dp"
+                style="@style/itemName_Title.Price.Quantity"
                 tools:text="15" />
 
         </LinearLayout>

@@ -10,87 +10,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="6dp">
+        android:padding="@dimen/padding_6dp">
 
         <ImageView
             android:id="@+id/item_picture_detail"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="centerCrop"
+            style="@style/Image_DetailScreen"
+            android:contentDescription="@string/item_photo_thumbnail"
             android:src="@drawable/table_ikea" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_name"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_name" />
 
             <EditText
                 android:id="@+id/edit_item_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/item_editText"
                 android:hint="@string/detail_activity_hint_name"
-                android:inputType="textCapCharacters"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:inputType="textCapCharacters" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_description"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_description" />
 
             <EditText
                 android:id="@+id/edit_item_information"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/item_editText"
                 android:hint="@string/detail_activity_hint_description"
-                android:inputType="textCapSentences"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:inputType="textCapSentences" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_category"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_category" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -109,77 +72,41 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_supplier"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_supplier" />
 
             <EditText
                 android:id="@+id/edit_item_supplier"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/item_editText"
                 android:hint="@string/detail_activity_hint_supplier"
-                android:inputType="textCapWords"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:inputType="textCapWords" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_price"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_price" />
 
             <EditText
                 android:id="@+id/edit_item_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/item_editText"
                 android:hint="@string/detail_activity_hint_price"
-                android:inputType="number|numberDecimal"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:inputType="number|numberDecimal" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp">
+            style="@style/LinearLayout_horizontal_detail">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="6dp"
-                android:text="@string/detail_activity_item_stock"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textStyle="bold" />
+                style="@style/itemName_Text"
+                android:text="@string/detail_activity_item_stock" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -189,30 +116,23 @@
 
                 <Button
                     android:id="@+id/quantity_decrement"
-                    style="@style/AppTheme.ButtonStyle.PlusAndMinus"
+                    style="@style/AppTheme.ButtonStyle.Quantity"
                     android:text="@string/decrement_button" />
 
                 <EditText
                     android:id="@+id/edit_item_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    style="@style/item_quantity_editText"
                     android:hint="@string/detail_activity_hint_quantity"
-                    android:inputType="number"
-                    android:padding="6dp"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textStyle="bold" />
+                    android:inputType="number" />
 
                 <Button
                     android:id="@+id/quantity_increment"
-                    style="@style/AppTheme.ButtonStyle.PlusAndMinus"
+                    style="@style/AppTheme.ButtonStyle.Quantity"
                     android:text="@string/increment_button" />
 
                 <Button
                     android:id="@+id/order_item_button"
                     style="@style/AppTheme.ButtonStyle.Order"
-                    android:layout_marginLeft="6dp"
                     android:text="@string/order_button" />
 
             </LinearLayout>
